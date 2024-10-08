@@ -1,19 +1,40 @@
 $(function () {
-  // 대상을 변수에 저장
-  const $menu = $(".gnb > li");
-  const $submenu = $(".submenu");
-  const duration = 300; // 0.3초
+  //대상을 변수에 저장
+  const $dim = $(".dim");
+  const $videoWrap = $(".video-wrap");
+  const $video = $videoWrap.find(".video iframe");
+  const $caption = $(".caption");
+  const $btnClose = $(".btn-close");
 
-  // 메뉴에 마우스가 들어왔을 때
-  $menu.on("mouseenter", function () {
-    // .stop() : 현재 진행 중인 애니메이션 즉시 중지
-    $(this).find($submenu).stop().slideDown(duration);
-    $(this).addClass("on");
+  const $videoItem = $(".video-list li");
+
+  // 비디오 리스트를 선택했을 때
+  $videoItem.on("click", function () {
+    // console.log($(this));
+
+    // 선택한 li의 data-link 값을 받아서 videoLink 변수에 담기
+    const videoLink = $(this).attr("data-link");
+    // const videoLink = $(this).data("link");
+
+    //iframe의 src 값으로 videoLink를 전달
+    $video.attr("src", videoLink);
+
+    // 팝업창 띄우기
+    $dim.fadeIn();
+    $videoWrap.addClass("active");
+
+    console.log(videoLink);
   });
 
-  // 메뉴에 마우스가 나갔을 때
-  $menu.on("mouseleave", function () {
-    $submenu.stop().slideUp(duration);
-    $menu.removeClass("on");
+  // 닫기 버튼을 클릭했을 때
+  $btnClose.on("click", function () {
+    $dim.fadeOut();
+    $videoWrap.removeClass("active");
   });
+
+  // // setTimeout(동작 ,시간)
+  // setTimeout(function () {
+  //   $dim.fadeIn();
+  //   $videoWrap.addClass("active");
+  // }, 3000);
 });
